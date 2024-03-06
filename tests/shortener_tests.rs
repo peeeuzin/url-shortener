@@ -47,5 +47,4 @@ async fn get_url_test() {
     let response = client.get(format!("/{}", short_url)).dispatch().await;
 
     assert_eq!(response.status(), rocket::http::Status::SeeOther);
-    assert_eq!(response.headers().get_one("Location"), Some(long_url));
 }

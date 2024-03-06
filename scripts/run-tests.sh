@@ -6,5 +6,6 @@ set -o pipefail
 
 docker compose up postgres --wait -d
 
-# Run tests
 cargo test
+
+docker compose down
