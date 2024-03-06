@@ -1,0 +1,10 @@
+[package]
+name = "url-shortener"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rocket = { version = "0.5", features = ["json"] }
+diesel = { version = "2.1.4", features = ["postgres"] }
+dotenvy = "0.15"
+validator = { version = "0.16.1", features = ["derive"] }

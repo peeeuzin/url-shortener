@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  api-01: &api
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: development
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - api-network
+    env_file:
+      - .env.local
+    command: cargo watch -x 'run --release'
+
+  api-02:
+    <<: *api
+    ports:
+      - "8001:8000"
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: url-shortener
+    ports:
+      - "5432:5432"
+    attach: 
+      false
+    networks:
+      - api-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  nginx:
+    image: nginx:latest
+    ports:
+     - "3000:3000" 
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api-01
+      - api-02
+    networks:
+      - api-network
+    
+
+networks:
+  api-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
