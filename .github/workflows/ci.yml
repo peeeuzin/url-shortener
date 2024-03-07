@@ -19,6 +19,8 @@ jobs:
       - name: Build the application
         run: cargo build --verbose
       - name: Run tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/url-shortener
         run: |
           bash ./scripts/run-tests.sh
 
