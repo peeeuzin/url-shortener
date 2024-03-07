@@ -22,7 +22,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/url-shortener
         run: |
-          bash ./scripts/run-tests.sh
+          bash ./scripts/run-tests.sh --touch-env
 
   lint:
     runs-on: ubuntu-latest
