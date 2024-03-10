@@ -25,6 +25,8 @@ fi
 
 docker compose up postgres --wait -d
 
+diesel migration run
+
 cargo test
 
 docker compose down

@@ -16,6 +16,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Install PSQL
+        run: |
+          apt update
+          apt install -y postgresql-client
+      - name: Install Diesel CLI
+        run: cargo install diesel_cli --no-default-features --features postgres
       - name: Build the application
         run: cargo build --verbose
       - name: Run tests
